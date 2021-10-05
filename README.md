@@ -1,2 +1,3 @@
 # tvctl
-🔄 A command-line utility to interact with TradingView
+
+📈 A command-line utility to interact with TradingView
