@@ -48,7 +48,9 @@ tvctl watchlist generate
 tvctl wl g
 ```
 
-For an example of the generated output, view the [export](https://github.com/krzko/tvctl/tree/main/export) directory.
+For an example of the generated output, view the [export](https://github.com/krzko/tvctl/tree/main/export) directory. The `watchlist generate` command will export all the pairs for each supported exchange and market instrument, into a file that TradingView recognises as a watchlist.
+
+To import the file, simply go to your chart view, select the `...` in the top right-hand corner and select **Import list...**.
 
 ## Download Binary
 
