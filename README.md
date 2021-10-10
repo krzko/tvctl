@@ -48,6 +48,8 @@ tvctl watchlist generate
 tvctl wl g
 ```
 
+For an example of the generated output, view the [export](https://github.com/krzko/tvctl/tree/main/export) directory.
+
 ## Download Binary
 
 Download the latest [release](https://github.com/krzko/tvctl/releases).
