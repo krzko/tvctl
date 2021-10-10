@@ -23,7 +23,7 @@ tvctl_*
 # vendor/
 
 ### Go Patch ###
-/vendor/
+# /vendor/
 /Godeps/
 
 ### Intellij ###
