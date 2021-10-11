@@ -70,7 +70,7 @@ func main() {
 							Usage:    "Comma seperated list of exchanges to use (default: \"binance\"",
 							Aliases:  []string{"ex"},
 							Required: false,
-							Value:    cli.NewStringSlice("binance"),
+							Value:    cli.NewStringSlice("binance", "ftx"),
 						},
 						&cli.StringFlag{
 							Name:        "directory",
@@ -151,15 +151,16 @@ func main() {
 						}
 						log.Infof("Connected to %s: %v", exBinName, exBinPingSpot)
 
-						// exFtxName := "FTX"
-						// exFtx := exchange.Ftx{}
-						// exFtxPing, err := exFtx.Ping(ftxApiURL, exFtxName)
-						// if err != nil {
-						// 	log.WithFields(log.Fields{
-						// 		"error": err,
-						// 	}).Error("Cannot contact " + exFtxName)
-						// }
-						// log.Infof("Connected to %s: %v", exFtxName, exFtxPing)
+						exFtxName := "FTX"
+						exFtx := exchange.Ftx{}
+
+						exFtxPing, err := exFtx.Ping(ftxApiURL, exFtxName)
+						if err != nil {
+							log.WithFields(log.Fields{
+								"error": err,
+							}).Error("Cannot contact " + exFtxName)
+						}
+						log.Infof("Connected to %s: %v", exFtxName, exFtxPing)
 
 						// exUniSwapName := "UniSwap"
 						// exUniSwap := exchange.UniSwap{}
@@ -185,6 +186,14 @@ func main() {
 						exBinFuturesUSDSymbols := exBin.GetFuturesUSDSymbols(binanceFuturesUSDApiURL, exBinName)
 						exBin.ExportFuturesUSDPerpSymbolsToDirectory(dir, exBinName, "USDT", exBinFuturesUSDSymbols)
 						exBin.ExportFuturesUSDQuarterlySymbolsToDirectory(dir, exBinName, "USDT", exBinFuturesUSDSymbols)
+
+						exFtxSymbols := exFtx.GetSymbols(ftxApiURL, exFtxName)
+						exFtx.ExportSpotSymbolsToDirectory(dir, exFtxName, "USD", exFtxSymbols)
+						exFtx.ExportSpotSymbolsToDirectory(dir, exFtxName, "USDT", exFtxSymbols)
+						exFtx.ExportFuturesPerpSymbolsToDirectory(dir, exFtxName, "PERP", exFtxSymbols)
+						exFtx.ExportFuturesQuarterlySymbolsToDirectory(dir, exFtxName, exFtxSymbols)
+						exFtx.ExportStockSpotSymbolsToDirectory(dir, exFtxName, "USD", exFtxSymbols)
+						exFtx.ExportStockQuarterlySymbolsToDirectory(dir, exFtxName, exFtxSymbols)
 
 						return nil
 					},

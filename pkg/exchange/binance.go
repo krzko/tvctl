@@ -1,7 +1,5 @@
 package exchange
 
-// https://binance-docs.github.io/apidocs/spot/en/#market-data-endpoints
-
 import (
 	"encoding/json"
 	"fmt"
@@ -13,6 +11,10 @@ import (
 
 	log "github.com/sirupsen/logrus"
 )
+
+// https://binance-docs.github.io/apidocs/spot/en/#market-data-endpoints
+// https://binance-docs.github.io/apidocs/futures/en/#market-data-endpoints
+// https://binance-docs.github.io/apidocs/delivery/en/#market-data-endpoints
 
 type Binance struct{}
 
@@ -59,7 +61,7 @@ type BinanceSpotSymbol struct {
 	IsMarginTradingAllowed bool   `json:"isMarginTradingAllowed"`
 }
 
-func (b Binance) ExportFuturesCoinCurrentQuarterlySymbolsToDirectory(dir, name, baseAsset string, sym []BinanceFuturesCoinSymbol) {
+func (bi Binance) ExportFuturesCoinCurrentQuarterlySymbolsToDirectory(dir, name, baseAsset string, sym []BinanceFuturesCoinSymbol) {
 	log.WithFields(log.Fields{
 		"dir": dir,
 	}).Infof("Exporting %v Futures Current Quarterly COIN-M symbols", name)
@@ -101,7 +103,7 @@ func (b Binance) ExportFuturesCoinCurrentQuarterlySymbolsToDirectory(dir, name, 
 	}
 }
 
-func (b Binance) ExportFuturesCoinNextQuarterlySymbolsToDirectory(dir, name, baseAsset string, sym []BinanceFuturesCoinSymbol) {
+func (bi Binance) ExportFuturesCoinNextQuarterlySymbolsToDirectory(dir, name, baseAsset string, sym []BinanceFuturesCoinSymbol) {
 	log.WithFields(log.Fields{
 		"dir": dir,
 	}).Infof("Exporting %v Futures Next Quarterly COIN-M symbols", name)
@@ -143,7 +145,7 @@ func (b Binance) ExportFuturesCoinNextQuarterlySymbolsToDirectory(dir, name, bas
 	}
 }
 
-func (b Binance) ExportFuturesCoinPerpSymbolsToDirectory(dir, name, baseAsset string, sym []BinanceFuturesCoinSymbol) {
+func (bi Binance) ExportFuturesCoinPerpSymbolsToDirectory(dir, name, baseAsset string, sym []BinanceFuturesCoinSymbol) {
 	log.WithFields(log.Fields{
 		"dir": dir,
 	}).Infof("Exporting %v Futures Perpetual COIN-M symbols", name)
@@ -185,7 +187,7 @@ func (b Binance) ExportFuturesCoinPerpSymbolsToDirectory(dir, name, baseAsset st
 	}
 }
 
-func (b Binance) ExportFuturesUSDQuarterlySymbolsToDirectory(dir, name, baseAsset string, sym []BinanceFuturesUSDSymbol) {
+func (bi Binance) ExportFuturesUSDQuarterlySymbolsToDirectory(dir, name, baseAsset string, sym []BinanceFuturesUSDSymbol) {
 	log.WithFields(log.Fields{
 		"dir": dir,
 	}).Infof("Exporting %v Futures Quarterly USD-M symbols", name)
@@ -227,7 +229,7 @@ func (b Binance) ExportFuturesUSDQuarterlySymbolsToDirectory(dir, name, baseAsse
 	}
 }
 
-func (b Binance) ExportFuturesUSDPerpSymbolsToDirectory(dir, name, baseAsset string, sym []BinanceFuturesUSDSymbol) {
+func (bi Binance) ExportFuturesUSDPerpSymbolsToDirectory(dir, name, baseAsset string, sym []BinanceFuturesUSDSymbol) {
 	log.WithFields(log.Fields{
 		"dir": dir,
 	}).Infof("Exporting %v Futures Perpetual USD-M symbols", name)
@@ -269,7 +271,7 @@ func (b Binance) ExportFuturesUSDPerpSymbolsToDirectory(dir, name, baseAsset str
 	}
 }
 
-func (b Binance) ExportMarginSymbolsToDirectory(dir, name, baseAsset string, sym []BinanceSpotSymbol) {
+func (bi Binance) ExportMarginSymbolsToDirectory(dir, name, baseAsset string, sym []BinanceSpotSymbol) {
 	log.WithFields(log.Fields{
 		"dir": dir,
 	}).Infof("Exporting %v Margin symbols", name)
@@ -311,7 +313,7 @@ func (b Binance) ExportMarginSymbolsToDirectory(dir, name, baseAsset string, sym
 	}
 }
 
-func (b Binance) ExportSpotSymbolsToDirectory(dir, name, baseAsset string, sym []BinanceSpotSymbol) {
+func (bi Binance) ExportSpotSymbolsToDirectory(dir, name, baseAsset string, sym []BinanceSpotSymbol) {
 	log.WithFields(log.Fields{
 		"dir": dir,
 	}).Infof("Exporting %v Spot symbols", name)
@@ -353,7 +355,7 @@ func (b Binance) ExportSpotSymbolsToDirectory(dir, name, baseAsset string, sym [
 	}
 }
 
-func (b Binance) GetFuturesCoinSymbols(url, name string) []BinanceFuturesCoinSymbol {
+func (bi Binance) GetFuturesCoinSymbols(url, name string) []BinanceFuturesCoinSymbol {
 	path := "/dapi/v1/exchangeInfo"
 
 	log.WithFields(log.Fields{
@@ -383,7 +385,7 @@ func (b Binance) GetFuturesCoinSymbols(url, name string) []BinanceFuturesCoinSym
 	return dynamic.SymbolEntity
 }
 
-func (b Binance) GetFuturesUSDSymbols(url, name string) []BinanceFuturesUSDSymbol {
+func (bi Binance) GetFuturesUSDSymbols(url, name string) []BinanceFuturesUSDSymbol {
 	path := "/fapi/v1/exchangeInfo"
 
 	log.WithFields(log.Fields{
@@ -413,7 +415,7 @@ func (b Binance) GetFuturesUSDSymbols(url, name string) []BinanceFuturesUSDSymbo
 	return dynamic.SymbolEntity
 }
 
-func (b Binance) GetSpotSymbols(url, name string) []BinanceSpotSymbol {
+func (bi Binance) GetSpotSymbols(url, name string) []BinanceSpotSymbol {
 	path := "/api/v3/exchangeInfo"
 
 	log.WithFields(log.Fields{
@@ -443,7 +445,7 @@ func (b Binance) GetSpotSymbols(url, name string) []BinanceSpotSymbol {
 	return dynamic.SymbolEntity
 }
 
-func (b Binance) PingFuturesCoin(url, name string) (bool, error) {
+func (bi Binance) PingFuturesCoin(url, name string) (bool, error) {
 	path := "/dapi/v1/ping"
 
 	log.WithFields(log.Fields{
@@ -481,7 +483,7 @@ func (b Binance) PingFuturesCoin(url, name string) (bool, error) {
 	return true, nil
 }
 
-func (b Binance) PingFuturesUSD(url, name string) (bool, error) {
+func (bi Binance) PingFuturesUSD(url, name string) (bool, error) {
 	path := "/fapi/v1/ping"
 
 	log.WithFields(log.Fields{
@@ -519,7 +521,7 @@ func (b Binance) PingFuturesUSD(url, name string) (bool, error) {
 	return true, nil
 }
 
-func (b Binance) PingSpot(url, name string) (bool, error) {
+func (bi Binance) PingSpot(url, name string) (bool, error) {
 	path := "/api/v3/ping"
 
 	log.WithFields(log.Fields{

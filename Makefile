@@ -5,7 +5,7 @@ EXECUTABLE:=tvctl
 DOCKER_REGISTRY:=ghcr.io
 DOCKER_USER:=krzko
 
-VERSION:=v0.0.1
+VERSION:=v0.0.2
 COMMIT=$(shell git describe --tags --always --long)
 NOW=$(shell date +'%Y%m%d')
 
