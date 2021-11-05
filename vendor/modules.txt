@@ -4,11 +4,9 @@ github.com/cpuguy83/go-md2man/v2/md2man
 # github.com/fatih/color v1.13.0
 ## explicit; go 1.13
 github.com/fatih/color
-# github.com/go-resty/resty/v2 v2.6.0
+# github.com/go-resty/resty/v2 v2.7.0
 ## explicit; go 1.11
 github.com/go-resty/resty/v2
-# github.com/graphql-go/graphql v0.8.0
-## explicit; go 1.13
 # github.com/mattn/go-colorable v0.1.11
 ## explicit; go 1.13
 github.com/mattn/go-colorable
@@ -29,8 +27,8 @@ github.com/sirupsen/logrus
 # github.com/urfave/cli/v2 v2.3.0
 ## explicit; go 1.11
 github.com/urfave/cli/v2
-# golang.org/x/net v0.0.0-20210405180319-a5a99cb37ef4
-## explicit; go 1.11
+# golang.org/x/net v0.0.0-20211029224645-99673261e6eb
+## explicit; go 1.17
 golang.org/x/net/publicsuffix
 # golang.org/x/sys v0.0.0-20210927094055-39ccf1dd6fa6
 ## explicit; go 1.17
