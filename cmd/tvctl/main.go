@@ -24,6 +24,7 @@ var (
 	binanceFuturesUSDApiURL = "https://fapi.binance.com"
 	binanceSpotApiURL       = "https://api.binance.com"
 	ftxApiURL               = "https://ftx.com/api"
+	kucoinApiURL            = "https://api.kucoin.com"
 	uniSwapApiURL           = "https://api.thegraph.com"
 )
 
@@ -70,7 +71,7 @@ func main() {
 							Usage:    "Comma seperated list of exchanges to use (default: \"binance\"",
 							Aliases:  []string{"ex"},
 							Required: false,
-							Value:    cli.NewStringSlice("binance", "ftx"),
+							Value:    cli.NewStringSlice("binance", "kucoin", "ftx"),
 						},
 						&cli.StringFlag{
 							Name:        "directory",
@@ -162,6 +163,17 @@ func main() {
 						}
 						log.Infof("Connected to %s: %v", exFtxName, exFtxPing)
 
+						exKucoinName := "KuCoin"
+						exKucoin := exchange.Kucoin{}
+
+						exKucoinPing, err := exKucoin.Ping(kucoinApiURL, exKucoinName)
+						if err != nil {
+							log.WithFields(log.Fields{
+								"error": err,
+							}).Error("Cannot contact " + exFtxName)
+						}
+						log.Infof("Connected to %s: %v", exFtxName, exKucoinPing)
+
 						// exUniSwapName := "UniSwap"
 						// exUniSwap := exchange.UniSwap{}
 						// exUniSwapPing, err := exUniSwap.Ping(uniSwapApiURL, exUniSwapName)
@@ -194,6 +206,10 @@ func main() {
 						exFtx.ExportFuturesQuarterlySymbolsToDirectory(dir, exFtxName, exFtxSymbols)
 						exFtx.ExportStockSpotSymbolsToDirectory(dir, exFtxName, "USD", exFtxSymbols)
 						exFtx.ExportStockQuarterlySymbolsToDirectory(dir, exFtxName, exFtxSymbols)
+
+						exKucoinSymbols := exKucoin.GetSymbols(kucoinApiURL, exKucoinName)
+						exKucoin.ExportSpotSymbolsToDirectory(dir, exKucoinName, "USDT", exKucoinSymbols)
+						exKucoin.ExportSpotSymbolsToDirectory(dir, exKucoinName, "BTC", exKucoinSymbols)
 
 						return nil
 					},
