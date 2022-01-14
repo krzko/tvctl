@@ -9,6 +9,7 @@ Currently supported features are:
 * Watchlists
   * Binance: Spot, Margin, Futures (USD-M) watchlists
   * FTX: Spot, Futures, Stocks
+  * KuCoin: Spot
   * Uniwap: in progress
 
 ## Getting Started
@@ -23,7 +24,7 @@ USAGE:
    tvctl [global options] command [command options] [arguments...]
 
 VERSION:
-   v0.0.2
+   v0.0.3
 
 COMMANDS:
    watchlist, wl  Commands related to watchlist features
