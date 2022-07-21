@@ -26,7 +26,7 @@ var (
 	binanceSpotApiURL       = "https://api.binance.com"
 	ftxApiURL               = "https://ftx.com/api"
 	kucoinApiURL            = "https://api.kucoin.com"
-	uniSwapApiURL           = "https://api.thegraph.com"
+	// uniSwapApiURL           = "https://api.thegraph.com"
 )
 
 func init() {
@@ -46,11 +46,13 @@ func main() {
 	c4 := color.New(c[4]).SprintFunc()
 	appName := fmt.Sprintf("%s%s%s%s%s", c0("t"), c1("v"), c2("c"), c3("t"), c4("l"))
 
+	v := fmt.Sprintf("v%v-%v (%v)", version, commit, date)
+
 	app := &cli.App{
 		Name:      appName,
 		Usage:     "A command-line utility to interact with TradingView",
 		UsageText: appName + " [global options] command [command options] [arguments...]",
-		Version:   version,
+		Version:   v,
 		CommandNotFound: func(c *cli.Context, command string) {
 			fmt.Fprintf(c.App.Writer, "tvctl: Command not found: %q\n", command)
 		},

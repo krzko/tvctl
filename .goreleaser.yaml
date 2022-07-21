@@ -30,6 +30,9 @@ dockers:
     - --label=org.opencontainers.image.created={{ time "2006-01-02T15:04:05Z07:00" }}
     - --label=org.opencontainers.image.revision={{ .FullCommit }}
     - --label=org.opencontainers.image.licenses=MIT
+    - --build-arg=VERSION={{ .Version }}
+    - --build-arg=SHORT_COMMIT={{ .ShortCommit }}
+    - --build-arg=DATE={{ time "2006-01-02T15:04:05Z07:00" }}
   - image_templates: ["ghcr.io/krzko/{{ .ProjectName }}:{{ .Version }}-arm64v8"]
     goarch: arm64
     dockerfile: Dockerfile
@@ -44,6 +47,9 @@ dockers:
     - --label=org.opencontainers.image.created={{ time "2006-01-02T15:04:05Z07:00" }}
     - --label=org.opencontainers.image.revision={{ .FullCommit }}
     - --label=org.opencontainers.image.licenses=MIT
+    - --build-arg=VERSION={{ .Version }}
+    - --build-arg=SHORT_COMMIT={{ .ShortCommit }}
+    - --build-arg=DATE={{ time "2006-01-02T15:04:05Z07:00" }}
 
 docker_manifests:
   - name_template: ghcr.io/krzko/{{ .ProjectName }}:{{ .Version }}
