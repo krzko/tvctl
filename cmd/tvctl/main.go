@@ -86,7 +86,7 @@ func main() {
 					Action: func(c *cli.Context) error {
 
 						log.WithFields(log.Fields{
-							"version": buildVersion,
+							"version": version,
 						}).Info("Starting tvctl")
 
 						log.Debug(len(c.String("exchange")))
