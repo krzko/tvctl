@@ -17,8 +17,9 @@ import (
 )
 
 var (
-	buildVersion string
-	// commit       string
+	version string
+	commit  string
+	date    string
 
 	// binanceFuturesCoinApiURL = "https://dapi.binance.com"
 	binanceFuturesUSDApiURL = "https://fapi.binance.com"
@@ -49,7 +50,7 @@ func main() {
 		Name:      appName,
 		Usage:     "A command-line utility to interact with TradingView",
 		UsageText: appName + " [global options] command [command options] [arguments...]",
-		Version:   buildVersion,
+		Version:   version,
 		CommandNotFound: func(c *cli.Context, command string) {
 			fmt.Fprintf(c.App.Writer, "tvctl: Command not found: %q\n", command)
 		},
