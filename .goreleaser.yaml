@@ -83,13 +83,18 @@ changelog:
     - Merge pull request
     - Merge branch
 
-# brews:
-#   - name: tvctl
-# #    github:
-# #      owner: krzko
-# #      name: homebrew-tap
-#     commit_author:
-#       name: krzko
-#       email: "k@ko.wal.ski"
-#     homepage: https://github.com/krzko/tvctl
-#     description: "A command-line utility to interact with TradingView"
+brews:
+  - name: tvctl
+#    github:
+#      owner: krzko
+#      name: homebrew-tap
+    tap:
+      owner: 'krzko'
+      name: 'homebrew-tap'
+    commit_author:
+      name: krzko
+      email: 'k@ko.wal.ski'
+    homepage: https://github.com/krzko/tvctl
+    description: "A command-line utility to interact with TradingView"
+    install: |
+      bin.install "tvctl"
