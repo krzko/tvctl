@@ -97,5 +97,3 @@ brews:
       bin.install "tvctl"
     test: |
       system "#{bin}/tvctl -v"
-    dependencies:
-    - name: go

@@ -14,7 +14,15 @@ Currently supported features are:
 
 ## Getting Started
 
-Running `tvctl` is availabile through several methods. You can download it as a binary from GitHub releases, running it as a distroless docker image or building it from source.
+Running `tvctl` is availabile through several methods. You can using `brew`, download it as a binary from GitHub releases, or running it as a distroless docker image.
+
+### brew
+
+```sh
+brew install krzko/tap/tvctl
+```
+
+## Run
 
 ```sh
 NAME:
@@ -24,7 +32,7 @@ USAGE:
    tvctl [global options] command [command options] [arguments...]
 
 VERSION:
-   v0.0.3
+   v0.0.6-625fe68 (2022-07-21T04:57:56Z)
 
 COMMANDS:
    watchlist, wl  Commands related to watchlist features
@@ -34,8 +42,6 @@ GLOBAL OPTIONS:
    --help, -h     show help (default: false)
    --version, -v  print the version (default: false)
 ```
-
-## Run
 
 ### Watchlist
 
