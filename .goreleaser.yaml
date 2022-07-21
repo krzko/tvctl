@@ -98,3 +98,7 @@ brews:
     description: "A command-line utility to interact with TradingView"
     install: |
       bin.install "tvctl"
+    test: |
+      system "#{bin}/tvctl -v"
+    dependencies:
+    - name: go
