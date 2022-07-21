@@ -4,6 +4,8 @@ on:
   push:
     tags:
       - '*'
+    branches:
+      - main
 
 env:
   GO_VERSION: "1.18"

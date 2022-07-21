@@ -1,56 +1,113 @@
-project_name: tvctl
-
+# .goreleaser.yml
 before:
   hooks:
-    # You may remove this if you don't use go modules.
-    - go mod download
+    - go mod tidy
+    - go generate ./...
 
 builds:
-  - env:
-      - CGO_ENABLED=0
+  - env: [CGO_ENABLED=0]
     goos:
       - linux
       - windows
       - darwin
     goarch:
-      - 386
       - amd64
-      - arm
       - arm64
-
-archives:
-  - wrap_in_directory: true
-    format_overrides:
-      - goos: windows
-        format: zip
-
-checksum:
-  name_template: 'checksums.txt'
-
-changelog:
-  sort: desc
-  filters:
-    exclude:
-      - '^Merge'
-
-snapshot:
-  name_template: "{{ .Tag }}-next"
+    dir: .
+    main: ./cmd/tvctl
+    ldflags:
+      - -s -w -X main.version={{.Version}} -X main.commit={{.Commit}} -X main.date={{.CommitDate}}
+    mod_timestamp: '{{ .CommitTimestamp }}'
 
 dockers:
-  - ids:
-      - tvctl
+  - image_templates: ["ghcr.io/krzko/{{ .ProjectName }}:{{ .Version }}-amd64"]
+    dockerfile: Dockerfile
+    use: buildx
+    build_flag_templates:
+    - --platform=linux/amd64
+    - --label=org.opencontainers.image.title={{ .ProjectName }}
+    - --label=org.opencontainers.image.description={{ .ProjectName }}
+    - --label=org.opencontainers.image.url=https://github.com/krzko/{{ .ProjectName }}
+    - --label=org.opencontainers.image.source=https://github.com/krzko/{{ .ProjectName }}
+    - --label=org.opencontainers.image.version={{ .Version }}
+    - --label=org.opencontainers.image.created={{ time "2006-01-02T15:04:05Z07:00" }}
+    - --label=org.opencontainers.image.revision={{ .FullCommit }}
+    - --label=org.opencontainers.image.licenses=MIT
+    - --build-arg=VERSION={{ .Version }}
+    - --build-arg=SHORT_COMMIT={{ .ShortCommit }}
+    - --build-arg=DATE={{ time "2006-01-02T15:04:05Z07:00" }}
+  - image_templates: ["ghcr.io/krzko/{{ .ProjectName }}:{{ .Version }}-arm64v8"]
+    goarch: arm64
+    dockerfile: Dockerfile
+    use: buildx
+    build_flag_templates:
+    - --platform=linux/arm64/v8
+    - --label=org.opencontainers.image.title={{ .ProjectName }}
+    - --label=org.opencontainers.image.description={{ .ProjectName }}
+    - --label=org.opencontainers.image.url=https://github.com/krzko/{{ .ProjectName }}
+    - --label=org.opencontainers.image.source=https://github.com/krzko/{{ .ProjectName }}
+    - --label=org.opencontainers.image.version={{ .Version }}
+    - --label=org.opencontainers.image.created={{ time "2006-01-02T15:04:05Z07:00" }}
+    - --label=org.opencontainers.image.revision={{ .FullCommit }}
+    - --label=org.opencontainers.image.licenses=MIT
+    - --build-arg=VERSION={{ .Version }}
+    - --build-arg=SHORT_COMMIT={{ .ShortCommit }}
+    - --build-arg=DATE={{ time "2006-01-02T15:04:05Z07:00" }}
+
+docker_manifests:
+  - name_template: ghcr.io/krzko/{{ .ProjectName }}:{{ .Version }}
     image_templates:
-      - "ghcr.io/krzko/tvctl:{{ .RawVersion }}"
-      - "ghcr.io/krzko/tvctl:latest"
+    - ghcr.io/krzko/{{ .ProjectName }}:{{ .Version }}-amd64
+    - ghcr.io/krzko/{{ .ProjectName }}:{{ .Version }}-arm64v8
+  - name_template: ghcr.io/krzko/{{ .ProjectName }}:latest
+    image_templates:
+    - ghcr.io/krzko/{{ .ProjectName }}:{{ .Version }}-amd64
+    - ghcr.io/krzko/{{ .ProjectName }}:{{ .Version }}-arm64v8
+
+archives:
+  - name_template: '{{ .ProjectName }}_{{ .Os }}_{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}'
+    replacements:
+      darwin: Darwin
+      linux: Linux
+      windows: Windows
+      386: i386
+      amd64: x86_64
+    format_overrides:
+    - goos: windows
+      format: zip
+    wrap_in_directory: true
+
+checksum:
+  name_template: '{{.ProjectName}}_checksums.txt'
+
+snapshot:
+  name_template: "{{ incpatch .Version }}-next"
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+    - '^docs:'
+    - '^test:'
+    - Merge pull request
+    - Merge branch
 
 brews:
-  - tap:
-      owner: krzko
-      name: homebrew-taps
-    homepage: "https://krzko.github.io/tvctl/"
+  - name: tvctl
+#    github:
+#      owner: krzko
+#      name: homebrew-tap
+    tap:
+      owner: 'krzko'
+      name: 'homebrew-tap'
+    commit_author:
+      name: krzko
+      email: 'k@ko.wal.ski'
+    homepage: https://github.com/krzko/tvctl
     description: "A command-line utility to interact with TradingView"
-    license: "MIT"
-    test: |
-      system "#{bin}/tvctl -v"
     install: |
       bin.install "tvctl"
+    test: |
+      system "#{bin}/tvctl -v"
+    dependencies:
+    - name: go
