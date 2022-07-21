@@ -1,58 +1,39 @@
-name: Release
+name: goreleaser
+
 on:
   push:
-    branches:
-      - main
+    tags:
+      - '*'
+
+env:
+  GO_VERSION: "1.18"
+  DOCKER_REGISTRY: "ghcr.io"
 
 jobs:
-  release:
-    name: releaser
+  goreleaser:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        golang: [1.18.x]
     steps:
-      -
-        name: Checkout
-        uses: actions/checkout@v2.4.0
-      -
-        name: Unshallow
-        run: git fetch --prune --unshallow
-      # -
-      #   name: Run Semantic Release
-      #   id: semantic
-      #   uses: docker://ghcr.io/codfish/semantic-release-action:v1
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      -
-        name: Set up Go
-        if: steps.semantic.outputs.new-release-published == 'true'
-        uses: actions/setup-go@v2
+      - name: Checkout
+        uses: actions/checkout@v3
         with:
-          go-version: ${{ matrix.golang }}
-      -
-        name: Cache Go modules
-        if: steps.semantic.outputs.new-release-published == 'true'
-        uses: actions/cache@v2.1.7
+          fetch-depth: 0
+
+      - name: Set up Go
+        uses: actions/setup-go@v3
         with:
-          path: ~/go/pkg/mod
-          key:          ${{ runner.os }}-go-${{ matrix.golang }}-v1-${{ hashFiles('**/go.sum') }}
-          restore-keys: ${{ runner.os }}-go-${{ matrix.golang }}-v1-
-      -
-        name: Run GoReleaser
-        # if: steps.semantic.outputs.new-release-published == 'true'
-        uses: goreleaser/goreleaser-action@v2.8.1
+          go-version: ${{ env.GO_VERSION }}
+
+      - name: Login to GitHub Packages Docker Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.DOCKER_REGISTRY }}
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run GoReleaser
+        uses: goreleaser/goreleaser-action@v3
         with:
           version: latest
           args: release --rm-dist
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      # -
-      #   name: Register version on pkg.go.dev
-      #   if: steps.semantic.outputs.new-release-published == 'true'
-      #   run: |
-      #     package=$(cat go.mod | grep ^module | awk '{print $2}')
-      #     version=v${{ steps.semantic.outputs.release-version }}
-      #     url=https://proxy.golang.org/${package}/@v/${version}.info
-      #     set -x +e
-      #     curl -i $url
+          GITHUB_TOKEN: ${{ secrets.GORELEASER_TOKEN }}

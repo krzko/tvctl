@@ -1,11 +1,9 @@
-FROM golang:1.18 as builder
-ARG VERSION
-ARG SHORT_COMMIT
-ARG DATE
-COPY . /tvctl
-WORKDIR /tvctl
-RUN CGO_ENABLED=0 go build -trimpath -ldflags "-s -w -X main.version=$VERSION -X main.commit=$SHORT_COMMIT -X main.date=$DATE" -o tvctl ./cmd/tvctl/main.go
+FROM alpine:3.15.0
 
-FROM golang:1.18
-COPY --from=builder /tvctl/tvctl /usr/bin/
-CMD ["tvctl"]
+COPY tvctl /usr/local/bin/tvctl
+RUN chmod +x /usr/local/bin/tvctl
+
+RUN mkdir /workdir
+WORKDIR /workdir
+
+ENTRYPOINT [ "/usr/local/bin/tvctl" ]
