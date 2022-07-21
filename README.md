@@ -10,7 +10,6 @@ Currently supported features are:
   * Binance: Spot, Margin, Futures (USD-M) watchlists
   * FTX: Spot, Futures, Stocks
   * KuCoin: Spot
-  * Uniwap: in progress
 
 ## Getting Started
 
@@ -18,9 +17,27 @@ Running `tvctl` is availabile through several methods. You can using `brew`, dow
 
 ### brew
 
+Install [brew](https://brew.sh/) and then run:
+
 ```sh
 brew install krzko/tap/tvctl
 ```
+
+### Download Binary
+
+Download the latest version from the [Releases](https://github.com/krzko/tvctl/releases) page.
+
+### Docker
+
+Run it via a docker distroless image:
+
+```sh
+docker run --rm \
+    -v "$(pwd)":/save \
+    ghcr.io/krzko/tvctl:latest watchlist generate -directory /save
+```
+
+To see all the tags view the [Packages](https://github.com/krzko/tvctl/pkgs/container/tvctl) page.
 
 ## Run
 
@@ -59,16 +76,4 @@ For an example of the generated output, view the [export](https://github.com/krz
 
 To import the file, simply go to your chart view, select the `...` in the top right-hand corner and select **Import list...**.
 
-## Download Binary
 
-Download the latest [release](https://github.com/krzko/tvctl/releases).
-
-## Docker
-
-Run it via a docker distroless image:
-
-```sh
-docker run --rm \
-    -v "$(pwd)":/save \
-    ghcr.io/krzko/tvctl:latest watchlist generate -directory /save
-```
