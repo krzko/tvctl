@@ -5,7 +5,9 @@ before:
     - go generate ./...
 
 builds:
-  - env: [CGO_ENABLED=0]
+  - main: ./cmd/tvctl
+    binary: tvctl
+    env: [CGO_ENABLED=0]
     goos:
       - linux
       - windows
@@ -13,8 +15,6 @@ builds:
     goarch:
       - amd64
       - arm64
-    dir: .
-    main: ./cmd/tvctl
     ldflags:
       - -s -w -X main.version={{.Version}} -X main.commit={{.ShortCommit}} -X main.date={{.CommitDate}}
     mod_timestamp: '{{ .CommitTimestamp }}'
@@ -66,12 +66,6 @@ docker_manifests:
 
 archives:
   - name_template: '{{ .ProjectName }}_{{ .Os }}_{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}'
-    replacements:
-      darwin: Darwin
-      linux: Linux
-      windows: Windows
-      386: i386
-      amd64: x86_64
     format_overrides:
     - goos: windows
       format: zip
