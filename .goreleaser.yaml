@@ -16,7 +16,7 @@ builds:
     dir: .
     main: ./cmd/tvctl
     ldflags:
-      - -s -w -X main.version={{.Version}} -X main.commit={{.Commit}} -X main.date={{.CommitDate}}
+      - -s -w -X main.version={{.Version}} -X main.commit={{.ShortCommit}} -X main.date={{.CommitDate}}
     mod_timestamp: '{{ .CommitTimestamp }}'
 
 dockers:
@@ -94,15 +94,9 @@ changelog:
 
 brews:
   - name: tvctl
-#    github:
-#      owner: krzko
-#      name: homebrew-tap
     tap:
       owner: 'krzko'
       name: 'homebrew-tap'
-    commit_author:
-      name: krzko
-      email: 'k@ko.wal.ski'
     homepage: https://github.com/krzko/tvctl
     description: "A command-line utility to interact with TradingView"
     install: |
