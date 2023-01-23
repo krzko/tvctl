@@ -6,7 +6,7 @@ require (
 	github.com/fatih/color v1.13.0
 	github.com/go-resty/resty/v2 v2.7.0
 	github.com/sirupsen/logrus v1.9.0
-	github.com/urfave/cli/v2 v2.20.3
+	github.com/urfave/cli/v2 v2.24.1
 )
 
 require (
