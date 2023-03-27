@@ -24,7 +24,6 @@ var (
 	// binanceFuturesCoinApiURL = "https://dapi.binance.com"
 	binanceFuturesUSDApiURL = "https://fapi.binance.com"
 	binanceSpotApiURL       = "https://api.binance.com"
-	ftxApiURL               = "https://ftx.com/api"
 	kucoinApiURL            = "https://api.kucoin.com"
 	// uniSwapApiURL           = "https://api.thegraph.com"
 )
@@ -74,7 +73,7 @@ func main() {
 							Usage:    "Comma seperated list of exchanges to use (default: \"binance\"",
 							Aliases:  []string{"ex"},
 							Required: false,
-							Value:    cli.NewStringSlice("binance", "kucoin", "ftx"),
+							Value:    cli.NewStringSlice("binance", "kucoin"),
 						},
 						&cli.StringFlag{
 							Name:        "directory",
@@ -155,17 +154,6 @@ func main() {
 						}
 						log.Infof("Connected to %s: %v", exBinName, exBinPingSpot)
 
-						exFtxName := "FTX"
-						exFtx := exchange.Ftx{}
-
-						exFtxPing, err := exFtx.Ping(ftxApiURL, exFtxName)
-						if err != nil {
-							log.WithFields(log.Fields{
-								"error": err,
-							}).Error("Cannot contact " + exFtxName)
-						}
-						log.Infof("Connected to %s: %v", exFtxName, exFtxPing)
-
 						exKucoinName := "KuCoin"
 						exKucoin := exchange.Kucoin{}
 
@@ -173,9 +161,9 @@ func main() {
 						if err != nil {
 							log.WithFields(log.Fields{
 								"error": err,
-							}).Error("Cannot contact " + exFtxName)
+							}).Error("Cannot contact " + exKucoinName)
 						}
-						log.Infof("Connected to %s: %v", exFtxName, exKucoinPing)
+						log.Infof("Connected to %s: %v", exKucoinName, exKucoinPing)
 
 						// exUniSwapName := "UniSwap"
 						// exUniSwap := exchange.UniSwap{}
@@ -201,14 +189,6 @@ func main() {
 						exBinFuturesUSDSymbols := exBin.GetFuturesUSDSymbols(binanceFuturesUSDApiURL, exBinName)
 						exBin.ExportFuturesUSDPerpSymbolsToDirectory(dir, exBinName, "USDT", exBinFuturesUSDSymbols)
 						exBin.ExportFuturesUSDQuarterlySymbolsToDirectory(dir, exBinName, "USDT", exBinFuturesUSDSymbols)
-
-						exFtxSymbols := exFtx.GetSymbols(ftxApiURL, exFtxName)
-						exFtx.ExportSpotSymbolsToDirectory(dir, exFtxName, "USD", exFtxSymbols)
-						exFtx.ExportSpotSymbolsToDirectory(dir, exFtxName, "USDT", exFtxSymbols)
-						exFtx.ExportFuturesPerpSymbolsToDirectory(dir, exFtxName, "PERP", exFtxSymbols)
-						exFtx.ExportFuturesQuarterlySymbolsToDirectory(dir, exFtxName, exFtxSymbols)
-						exFtx.ExportStockSpotSymbolsToDirectory(dir, exFtxName, "USD", exFtxSymbols)
-						exFtx.ExportStockQuarterlySymbolsToDirectory(dir, exFtxName, exFtxSymbols)
 
 						exKucoinSymbols := exKucoin.GetSymbols(kucoinApiURL, exKucoinName)
 						exKucoin.ExportSpotSymbolsToDirectory(dir, exKucoinName, "USDT", exKucoinSymbols)
