@@ -8,7 +8,7 @@ Currently supported features are:
 
 * Watchlists
   * Binance: Spot, Margin, Futures (USD-M) watchlists
-  * FTX: Spot, Futures, Stocks
+  * ~~FTX: Spot, Futures, Stocks~~ 🤡🌎
   * KuCoin: Spot
 
 ## Getting Started
